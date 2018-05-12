@@ -6,57 +6,63 @@ const Responses = {
         template: '#responses-template',
 
         data: () => ({
-            responses: [],
-            searchKey : "",
+            issues: [],
+            labels: [],
+            searchKey: "",
 
             query: "/issues?",
-            state: "",
-            labels: "",
-            sort: "",
+            selectedState: "",
+            checkedLabels: [],
+            selectedSort: "",
             direction: ""
             // since: YYYY-MM-DDTHH:MM:SSZ, lazy to implement this :)
         }),
 
         mounted() {
-            this.getResponses('/issues');
+            this.getResponses('issues', '/issues?');
+            this.getResponses('labels', '/labels?');
+            console.log(this.issues);
         },
 
         methods: {
-            getResponses(queryToFetch) {
+            getResponses: function(type,queryToFetch) {
+                queryToFetch += "per_page=100&";
                 axios.get(baseURL + queryToFetch).then( res => {
-                    this.responses = res.data
-                    console.log(this.responses); // For debugging purposes only
+                    if (type=="issues") {
+                      this.issues = res.data;
+                      console.log(this.issues); // For debugging purposes only
+                    } else if (type=="labels") {
+                      this.labels = res.data;
+                      console.log(this.labels); // For debugging purposes only
+                    }
                 }).catch( err => {
                     console.log(err);
                 })
             },
             generateQuery: function() {
-                if (this.state) {
-                  this.query += "state=" + this.state + '&';
+                if (this.selectedState) {
+                  this.query += "state=" + this.selectedState + '&';
                 }
-                if (this.labels) {
-                  this.query += "labels=" + this.labels + '&';
+                if (this.checkedLabels.length != 0) {
+                  this.query += "labels=";
+                  var index = 0;
+                  for (index = 0; index < this.checkedLabels.length-1; ++index) {
+                    this.query += this.checkedLabels[index] +',';
+                  }
+                  this.query += this.checkedLabels[index] + '&';
                 }
-                if (this.sort) {
-                  this.query += "sort=" + this.sort + '&';
+                if (this.selectedSort) {
+                  this.query += "sort=" + this.selectedSort + '&';
                 }
                 if (this.direction) {
-                  this.query += "direction=" + this.direction + '&';
+                  this.query += "direction=asc&";
                 }
                 console.log("generateQuery is called..." + this.query);
             },
             initiateQuery: function() {
                 this.generateQuery();
-                this.getResponses(this.query);
+                this.issues = this.getResponses('issues',this.query);
                 this.query = "/issues?";
-            }
-        },
-
-        computed: {
-            filteredResponses() {
-                return this.responses.filter( res => {
-                    return res.title.includes(this.searchKey);
-                })
             }
         }
 };

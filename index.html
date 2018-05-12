@@ -27,17 +27,44 @@
       <template id="responses-template">
         <div>
 					<h3>Not So Cool Query Builder</h3>
-					<p>State: <input v-model="state" placeholder="open,closed or all"></p>
-					<p>Labels: <input v-model="labels" placeholder="Label names, comma separated"></p>
-					<p>Sort: <input v-model="sort" placeholder="created, updated or comments"></p>
-					<p>Direction: <input v-model="direction" placeholder="asc or desc"></p>
+					<span>State:
+						<select v-model="selectedState">
+						  <option disabled value="">Please select one</option>
+						  <option>open</option>
+						  <option>closed</option>
+						  <option>all</option>
+						</select>
+						{{ selectedState }}
+					</span>
+
+					<br>
+					<ol>
+						<li v-for="label in labels">
+							<input type="checkbox" v-bind:id="label.id" v-bind:value="label.name" v-model="checkedLabels">
+							<label for="label">{{label.name}}</label>
+						</li>
+					</ol>
+					<span>Checked labels: {{ checkedLabels }}</span>
+					<br>
+				
+					<span>Sort:
+						<select v-model="selectedSort">
+							<option disabled value="">Please select one</option>
+							<option>created</option>
+							<option>updated</option>
+							<option>comments</option>
+						</select>
+						{{ selectedSort }}
+					</span>					
+
+					<p>Direction ascending: <input type="checkbox" id="checkbox" v-model="direction"></p>
 					<button v-on:click="initiateQuery"> Create Query & Fetch Issues</button>
 					<hr>
 
-          <h3>Here are the fetched issues. Search: <input v-model="searchKey" placeholder="Discover fetched results"></h3>
+          <h3>Here are the fetched issues.</h3>
           <ul>
-            <li v-for="result in filteredResponses">
-              <a v-bind:href="result.html_url">{{result.title}}</a>
+            <li v-for="issue in issues">
+              <a v-bind:href="issue.html_url">{{issue.title}}</a>
             </li>
           </ul>
         </div>
