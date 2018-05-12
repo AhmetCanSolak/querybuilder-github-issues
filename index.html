@@ -1,0 +1,51 @@
+<html>
+		<head>
+			<title>Inspect Github Issues of Atom Repository</title>
+		</head>
+		<body>
+			<div id="app">
+			  <h1>Bienvenue!</h1>
+        <h3>This simple page is built to make your life easier while searching for issues of <a href="https://github.com/atom/atom">Atom repository</a> on Github.com</h3>
+
+  			<hr>
+        <responses></responses>
+        
+			</div>
+
+      <footer>
+        <hr>
+        Istanbul, May 2018
+      </footer>
+
+			<!-- ##### Componenet Templates ##### -->
+			<template id="querybuilder-template">
+				<div>
+
+				</div>
+			</template>
+
+      <template id="responses-template">
+        <div>
+					<h3>Not So Cool Query Builder</h3>
+					<p>State: <input v-model="state" placeholder="open,closed or all"></p>
+					<p>Labels: <input v-model="labels" placeholder="Label names, comma separated"></p>
+					<p>Sort: <input v-model="sort" placeholder="created, updated or comments"></p>
+					<p>Direction: <input v-model="direction" placeholder="asc or desc"></p>
+					<button v-on:click="initiateQuery"> Create Query & Fetch Issues</button>
+					<hr>
+
+          <h3>Here are the fetched issues. Search: <input v-model="searchKey" placeholder="Discover fetched results"></h3>
+          <ul>
+            <li v-for="result in filteredResponses">
+              <a v-bind:href="result.html_url">{{result.title}}</a>
+            </li>
+          </ul>
+        </div>
+      </template>
+
+
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.3/vue.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.1/axios.js"></script>
+			<script src="app.js"></script>
+		</body>
+</html>
