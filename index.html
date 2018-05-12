@@ -18,7 +18,7 @@
 				</center>
       </footer>
 
-			<!-- ##### Componenet Templates ##### -->
+			<!-- Componenet Template -->
       <template id="responses-template">
         <div>
 					<h3>Not So Cool Query Builder</h3>
@@ -59,20 +59,39 @@
 					<hr>
 
           <h3>Here are the fetched issues.</h3>
+
+					<table>
+					  <thead>
+					    <tr>
+					      <th>Title</th>
+								<th>Comments</th>
+					      <th>Created At</th>
+					      <th>Updated At</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr v-for="issue in issues">
+					      <td><a v-bind:href="issue.html_url">{{issue.title}}</a></td>
+								<td>{{issue.comments}}</td>
+					      <td>{{issue.created_at}}</td>
+					      <td>{{issue.updated_at}}</td>
+					    </tr>
+					  </tbody>
+					</table>
           <ul>
             <li v-for="issue in issues">
-              <a v-bind:href="issue.html_url">{{issue.title}}</a>
+              
             </li>
           </ul>
         </div>
       </template>
 
-
+			<!-- Import Vue.js and my application -->
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.3/vue.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.1/axios.js"></script>
 			<script src="app.js"></script>
 
-
+			<!-- Import the UI framework -->
 			<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
 			<link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
 			<link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
