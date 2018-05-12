@@ -1,6 +1,5 @@
 const baseURL = "https://api.github.com/repos/atom/atom";
 
-
 const Responses = {
 
         template: '#responses-template',
@@ -15,25 +14,25 @@ const Responses = {
             checkedLabels: [],
             selectedSort: "",
             direction: ""
-            // since: YYYY-MM-DDTHH:MM:SSZ, lazy to implement this :)
+            // since: YYYY-MM-DDTHH:MM:SSZ, lazy to implement this for now :)
         }),
 
         mounted() {
             this.getResponses('issues', '/issues?');
             this.getResponses('labels', '/labels?');
-            console.log(this.issues);
         },
 
         methods: {
             getResponses: function(type,queryToFetch) {
                 queryToFetch += "per_page=100&";
                 axios.get(baseURL + queryToFetch).then( res => {
+                    if (res.data == null || res.data.length == 0) {
+                      alert("Such filtering combination does not return any valid issue...");
+                    }
                     if (type=="issues") {
                       this.issues = res.data;
-                      console.log(this.issues); // For debugging purposes only
                     } else if (type=="labels") {
                       this.labels = res.data;
-                      console.log(this.labels); // For debugging purposes only
                     }
                 }).catch( err => {
                     console.log(err);
@@ -57,7 +56,6 @@ const Responses = {
                 if (this.direction) {
                   this.query += "direction=asc&";
                 }
-                console.log("generateQuery is called..." + this.query);
             },
             initiateQuery: function() {
                 this.generateQuery();

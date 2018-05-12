@@ -3,31 +3,26 @@
 			<title>Inspect Github Issues of Atom Repository</title>
 		</head>
 		<body>
-			<div id="app">
+			<div id="app" class="container">
+				<br>
 			  <h1>Bienvenue!</h1>
-        <h3>This simple page is built to make your life easier while searching for issues of <a href="https://github.com/atom/atom">Atom repository</a> on Github.com</h3>
-
+        <h3>This simple page is built to make your life easier while searching for specific issues of <a href="https://github.com/atom/atom">Atom repository</a> on Github.com</h3>
   			<hr>
         <responses></responses>
-        
 			</div>
 
-      <footer>
-        <hr>
-        Istanbul, May 2018
+      <footer class="center">
+				<center>
+					<hr>
+	        Istanbul, May 2018
+				</center>
       </footer>
 
 			<!-- ##### Componenet Templates ##### -->
-			<template id="querybuilder-template">
-				<div>
-
-				</div>
-			</template>
-
       <template id="responses-template">
         <div>
 					<h3>Not So Cool Query Builder</h3>
-					<span>State:
+					<span><strong>State:</strong>
 						<select v-model="selectedState">
 						  <option disabled value="">Please select one</option>
 						  <option>open</option>
@@ -36,18 +31,20 @@
 						</select>
 						{{ selectedState }}
 					</span>
-
 					<br>
-					<ol>
-						<li v-for="label in labels">
-							<input type="checkbox" v-bind:id="label.id" v-bind:value="label.name" v-model="checkedLabels">
-							<label for="label">{{label.name}}</label>
-						</li>
-					</ol>
-					<span>Checked labels: {{ checkedLabels }}</span>
+
+					<span><strong>Labels:</strong> </span>
+					<div style="max-height:300px;overflow:auto">
+						<div v-for="label in labels" >
+ 							 <input type="checkbox" v-bind:id="label.id" v-bind:value="label.name" v-model="checkedLabels">
+							 {{label.name}} 
+						</div>					
+					</div>
+					<hr>
+					<span><em>Checked labels:</em>{{ checkedLabels }}</span>
 					<br>
 				
-					<span>Sort:
+					<span><strong>Sort:</strong>
 						<select v-model="selectedSort">
 							<option disabled value="">Please select one</option>
 							<option>created</option>
@@ -57,7 +54,7 @@
 						{{ selectedSort }}
 					</span>					
 
-					<p>Direction ascending: <input type="checkbox" id="checkbox" v-model="direction"></p>
+					<p><strong>Direction ascending:</strong> <input type="checkbox" id="checkbox" v-model="direction"></p>
 					<button v-on:click="initiateQuery"> Create Query & Fetch Issues</button>
 					<hr>
 
@@ -74,5 +71,11 @@
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.3/vue.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.1/axios.js"></script>
 			<script src="app.js"></script>
+
+
+			<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+			<link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+			<link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+
 		</body>
 </html>
